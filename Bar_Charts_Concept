@@ -1,0 +1,266 @@
+# ============================================================
+# DATA VISUALIZATION - BAR CHART ANALYSIS
+# Dataset: Sales-Export_2019-2020.csv
+# ============================================================
+
+
+# ------------------------------------------------------------
+# STEP 1: Import required libraries
+# ------------------------------------------------------------
+
+# Import pandas for data manipulation and analysis
+import pandas as pd
+
+# Import matplotlib for creating visualizations
+import matplotlib.pyplot as plt
+
+
+# ------------------------------------------------------------
+# STEP 2: Load the dataset
+# ------------------------------------------------------------
+
+# Read the CSV file into a pandas DataFrame
+df = pd.read_csv('Sales-Export_2019-2020.csv')
+
+
+# ------------------------------------------------------------
+# STEP 3: Clean column names
+# ------------------------------------------------------------
+
+# Remove unnecessary spaces from the beginning and end
+# of every column name
+df.columns = df.columns.str.strip()
+
+
+# ------------------------------------------------------------
+# STEP 4: Clean Order Value column
+# ------------------------------------------------------------
+
+# Remove commas from order values
+# Example: "17,524.02" becomes "17524.02"
+df['order_value_EUR'] = df['order_value_EUR'].astype(str).str.replace(',', '', regex=False)
+
+# Convert order_value_EUR from text/object into numeric values
+df['order_value_EUR'] = pd.to_numeric(df['order_value_EUR'])
+
+
+# ------------------------------------------------------------
+# STEP 5: Convert date column
+# ------------------------------------------------------------
+
+# Convert the date column from text into datetime format
+df['date'] = pd.to_datetime(df['date'])
+
+
+# ------------------------------------------------------------
+# STEP 6: Check the dataset
+# ------------------------------------------------------------
+
+# Display the first five rows
+print(df.head())
+
+# Display the shape of the dataset
+print("Dataset shape:", df.shape)
+
+# Display the column names
+print("Columns:", df.columns.tolist())
+
+# Display the data types
+print(df.dtypes)
+
+# Check for missing values
+print("Missing values:")
+print(df.isnull().sum())
+
+# Check for duplicate rows
+print("Duplicate rows:", df.duplicated().sum())
+
+
+# ============================================================
+# BAR CHART 1: NUMBER OF ORDERS BY CATEGORY
+# ============================================================
+
+# Count the number of orders in each category
+category_counts = df['category'].value_counts()
+
+# Display the order count for each category
+print("Orders by Category:")
+print(category_counts)
+
+
+# Create a figure with width 10 and height 5
+plt.figure(figsize=(10, 5))
+
+# Create a bar chart
+# X-axis = category names
+# Y-axis = number of orders
+plt.bar(category_counts.index, category_counts.values)
+
+# Add a title to the chart
+plt.title('Number of Orders by Category')
+
+# Add a label to the x-axis
+plt.xlabel('Product Category')
+
+# Add a label to the y-axis
+plt.ylabel('Number of Orders')
+
+# Rotate category names by 45 degrees
+plt.xticks(rotation=45)
+
+# Display the chart
+plt.show()
+
+
+# ============================================================
+# BAR CHART 2: TOTAL REVENUE BY CATEGORY
+# ============================================================
+
+# Calculate total revenue for each category
+category_revenue = df.groupby('category')['order_value_EUR'].sum()
+
+# Sort categories from highest revenue to lowest revenue
+category_revenue = category_revenue.sort_values(ascending=False)
+
+# Display total revenue for every category
+print("Revenue by Category:")
+print(category_revenue)
+
+
+# Create a figure
+plt.figure(figsize=(10, 5))
+
+# Create a bar chart for total revenue
+plt.bar(category_revenue.index, category_revenue.values)
+
+# Add a title
+plt.title('Total Revenue by Category')
+
+# Add x-axis label
+plt.xlabel('Product Category')
+
+# Add y-axis label
+plt.ylabel('Total Revenue (€)')
+
+# Rotate category names
+plt.xticks(rotation=45)
+
+# Display the chart
+plt.show()
+
+
+# ============================================================
+# BAR CHART 3: TOTAL COST BY CATEGORY
+# ============================================================
+
+# Calculate total cost for each category
+category_cost = df.groupby('category')['cost'].sum()
+
+# Sort categories from highest cost to lowest cost
+category_cost = category_cost.sort_values(ascending=False)
+
+# Display total cost for every category
+print("Cost by Category:")
+print(category_cost)
+
+
+# Create a figure
+plt.figure(figsize=(10, 5))
+
+# Create a bar chart for total cost
+plt.bar(category_cost.index, category_cost.values)
+
+# Add a title
+plt.title('Total Cost by Category')
+
+# Add x-axis label
+plt.xlabel('Product Category')
+
+# Add y-axis label
+plt.ylabel('Total Cost (€)')
+
+# Rotate category names
+plt.xticks(rotation=45)
+
+# Display the chart
+plt.show()
+
+
+# ============================================================
+# BAR CHART 4: TOTAL PROFIT BY CATEGORY
+# ============================================================
+
+# Calculate profit for each category
+# Profit = Revenue - Cost
+category_profit = category_revenue - category_cost
+
+# Sort categories from highest profit to lowest profit
+category_profit = category_profit.sort_values(ascending=False)
+
+# Display total profit for every category
+print("Profit by Category:")
+print(category_profit)
+
+
+# Create a figure
+plt.figure(figsize=(10, 5))
+
+# Create a bar chart for total profit
+plt.bar(category_profit.index, category_profit.values)
+
+# Add a title
+plt.title('Total Profit by Category')
+
+# Add x-axis label
+plt.xlabel('Product Category')
+
+# Add y-axis label
+plt.ylabel('Total Profit (€)')
+
+# Rotate category names
+plt.xticks(rotation=45)
+
+# Display the chart
+plt.show()
+
+
+# ============================================================
+# PROFIT MARGIN CALCULATION
+# ============================================================
+
+# Calculate profit margin
+# Profit Margin = (Profit / Revenue) * 100
+category_profit_margin = (category_profit / category_revenue) * 100
+
+# Sort categories from highest profit margin to lowest
+category_profit_margin = category_profit_margin.sort_values(ascending=False)
+
+# Display profit margin for every category
+print("Profit Margin by Category:")
+print(category_profit_margin)
+
+
+# ============================================================
+# BAR CHART 5: PROFIT MARGIN BY CATEGORY
+# ============================================================
+
+# Create a figure
+plt.figure(figsize=(10, 5))
+
+# Create a bar chart for profit margin
+plt.bar(category_profit_margin.index, category_profit_margin.values)
+
+# Add a title
+plt.title('Profit Margin by Category')
+
+# Add x-axis label
+plt.xlabel('Product Category')
+
+# Add y-axis label
+plt.ylabel('Profit Margin (%)')
+
+# Rotate category names
+plt.xticks(rotation=45)
+
+# Display the chart
+plt.show()
