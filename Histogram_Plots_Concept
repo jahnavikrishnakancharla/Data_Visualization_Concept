@@ -1,0 +1,328 @@
+# ============================================================
+#                 HISTOGRAM - DATA VISUALIZATION
+# ============================================================
+
+# Import Pandas for data handling
+import pandas as pd
+
+# Import Matplotlib for creating graphs
+import matplotlib.pyplot as plt
+
+
+# ============================================================
+# 1. LOAD THE DATASET
+# ============================================================
+
+# Read the CSV file into a Pandas DataFrame
+df = pd.read_csv("Sales-Export_2019-2020.csv")
+
+
+# ============================================================
+# 2. CLEAN THE COLUMN NAMES
+# ============================================================
+
+# Remove extra spaces from the beginning and end of column names
+df.columns = df.columns.str.strip()
+
+
+# ============================================================
+# 3. CLEAN THE ORDER VALUE COLUMN
+# ============================================================
+
+# Convert order_value_EUR into string
+# Remove commas from values such as "17,524.02"
+df["order_value_EUR"] = (
+    df["order_value_EUR"]
+    .astype(str)
+    .str.replace(",", "", regex=False)
+)
+
+# Convert the cleaned values into numerical format
+df["order_value_EUR"] = pd.to_numeric(df["order_value_EUR"])
+
+
+# ============================================================
+# 4. CONVERT DATE COLUMN
+# ============================================================
+
+# Convert the date column from text into datetime format
+df["date"] = pd.to_datetime(df["date"])
+
+
+# ============================================================
+# 5. VIEW THE DATA
+# ============================================================
+
+# Display the first five rows
+print(df.head())
+
+
+# ============================================================
+# 6. BASIC HISTOGRAM
+# ============================================================
+
+# Create a histogram using order values
+# A histogram shows the distribution of numerical data
+plt.hist(df["order_value_EUR"])
+
+# Display the graph
+plt.show()
+
+
+# ============================================================
+# 7. HISTOGRAM WITH LABELS AND TITLE
+# ============================================================
+
+# Set the size of the graph
+plt.figure(figsize=(10, 5))
+
+# Create histogram
+plt.hist(df["order_value_EUR"])
+
+# Label the X-axis
+plt.xlabel("Order Value (EUR)")
+
+# Label the Y-axis
+plt.ylabel("Number of Orders")
+
+# Give the graph a title
+plt.title("Distribution of Order Values")
+
+# Display the graph
+plt.show()
+
+
+# ============================================================
+# 8. HISTOGRAM WITH 5 BINS
+# ============================================================
+
+# Set graph size
+plt.figure(figsize=(10, 5))
+
+# Divide the data into 5 intervals
+plt.hist(df["order_value_EUR"], bins=5)
+
+# Add X-axis label
+plt.xlabel("Order Value (EUR)")
+
+# Add Y-axis label
+plt.ylabel("Number of Orders")
+
+# Add title
+plt.title("Order Value Distribution - 5 Bins")
+
+# Display graph
+plt.show()
+
+
+# ============================================================
+# 9. HISTOGRAM WITH 20 BINS
+# ============================================================
+
+# Set graph size
+plt.figure(figsize=(10, 5))
+
+# Divide the data into 20 intervals
+plt.hist(df["order_value_EUR"], bins=20)
+
+# Add X-axis label
+plt.xlabel("Order Value (EUR)")
+
+# Add Y-axis label
+plt.ylabel("Number of Orders")
+
+# Add title
+plt.title("Order Value Distribution - 20 Bins")
+
+# Display graph
+plt.show()
+
+
+# ============================================================
+# 10. HISTOGRAM WITH 50 BINS
+# ============================================================
+
+# Set graph size
+plt.figure(figsize=(10, 5))
+
+# Divide the data into 50 smaller intervals
+plt.hist(df["order_value_EUR"], bins=50)
+
+# Add X-axis label
+plt.xlabel("Order Value (EUR)")
+
+# Add Y-axis label
+plt.ylabel("Number of Orders")
+
+# Add title
+plt.title("Order Value Distribution - 50 Bins")
+
+# Display graph
+plt.show()
+
+
+# ============================================================
+# 11. HISTOGRAM WITH EDGE COLOR
+# ============================================================
+
+# Set graph size
+plt.figure(figsize=(10, 5))
+
+# Create histogram with 20 bins
+# edgecolor makes the boundaries of each bar visible
+plt.hist(
+    df["order_value_EUR"],
+    bins=20,
+    edgecolor="black"
+)
+
+# Add labels
+plt.xlabel("Order Value (EUR)")
+plt.ylabel("Number of Orders")
+
+# Add title
+plt.title("Distribution of Order Values")
+
+# Display graph
+plt.show()
+
+
+# ============================================================
+# 12. HISTOGRAM WITH RANGE
+# ============================================================
+
+# Set graph size
+plt.figure(figsize=(10, 5))
+
+# Show only order values from 0 to 200,000
+plt.hist(
+    df["order_value_EUR"],
+    bins=20,
+    range=(0, 200000),
+    edgecolor="black"
+)
+
+# Add labels
+plt.xlabel("Order Value (EUR)")
+plt.ylabel("Number of Orders")
+
+# Add title
+plt.title("Order Values from €0 to €200,000")
+
+# Display graph
+plt.show()
+
+
+# ============================================================
+# 13. HISTOGRAM WITH DENSITY
+# ============================================================
+
+# Set graph size
+plt.figure(figsize=(10, 5))
+
+# density=True converts frequency into probability density
+plt.hist(
+    df["order_value_EUR"],
+    bins=20,
+    range=(0, 200000),
+    density=True,
+    edgecolor="black"
+)
+
+# Add labels
+plt.xlabel("Order Value (EUR)")
+plt.ylabel("Probability Density")
+
+# Add title
+plt.title("Distribution of Order Values")
+
+# Display graph
+plt.show()
+
+
+# ============================================================
+# 14. HISTOGRAM OF COST
+# ============================================================
+
+# Set graph size
+plt.figure(figsize=(10, 5))
+
+# Create histogram for cost
+plt.hist(
+    df["cost"],
+    bins=20,
+    edgecolor="black"
+)
+
+# Add labels
+plt.xlabel("Cost (EUR)")
+plt.ylabel("Number of Orders")
+
+# Add title
+plt.title("Distribution of Order Costs")
+
+# Display graph
+plt.show()
+
+
+# ============================================================
+# 15. CALCULATE MEAN AND MEDIAN
+# ============================================================
+
+# Calculate the average order value
+mean_value = df["order_value_EUR"].mean()
+
+# Calculate the middle order value
+median_value = df["order_value_EUR"].median()
+
+# Print the mean
+print("Mean:", mean_value)
+
+# Print the median
+print("Median:", median_value)
+
+
+# ============================================================
+# 16. HISTOGRAM WITH MEAN AND MEDIAN
+# ============================================================
+
+# Set graph size
+plt.figure(figsize=(10, 5))
+
+# Create histogram
+plt.hist(
+    df["order_value_EUR"],
+    bins=20,
+    range=(0, 200000),
+    density=True,
+    edgecolor="black"
+)
+
+# Draw a vertical line at the mean
+plt.axvline(
+    mean_value,
+    color="red",
+    label="Mean"
+)
+
+# Draw a vertical line at the median
+plt.axvline(
+    median_value,
+    color="green",
+    label="Median"
+)
+
+# Add X-axis label
+plt.xlabel("Order Value (EUR)")
+
+# Add Y-axis label
+plt.ylabel("Probability Density")
+
+# Add title
+plt.title("Distribution of Order Values")
+
+# Display the labels of Mean and Median
+plt.legend()
+
+# Display the final graph
+plt.show()
