@@ -1,0 +1,38 @@
+# Import matplotlib's pyplot module for creating visualizations
+import matplotlib.pyplot as plt
+
+# Create a figure with width = 10 inches and height = 5 inches
+plt.figure(figsize=(10, 5))
+
+# Create Box Plots for Order Value and Cost
+# patch_artist=True allows the boxes to be filled/styled
+# showmeans=True displays the mean as a separate marker
+plt.boxplot(
+    [df["order_value_EUR"], df["cost"]],
+    patch_artist=True,
+    showmeans=True
+)
+
+# Set names for the two Box Plots
+plt.xticks(
+    [1, 2],
+    ["Order Value", "Cost"]
+)
+
+# Set the label for the X-axis
+plt.xlabel("Variable")
+
+# Set the label for the Y-axis
+plt.ylabel("Amount (EUR)")
+
+# Set the title of the visualization
+plt.title("Order Value vs Cost - Box Plot")
+
+# Set Y-axis values from 0 to 400,000 with intervals of 50,000
+plt.yticks(range(0, 400001, 50000))
+
+# Add horizontal gridlines to make values easier to read
+plt.grid(axis="y", linestyle="--", alpha=0.5)
+
+# Display the Box Plot
+plt.show()
