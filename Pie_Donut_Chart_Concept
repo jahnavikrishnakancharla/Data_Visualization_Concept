@@ -1,0 +1,122 @@
+# Import pandas for loading and handling the dataset
+import pandas as pd
+
+# Import matplotlib for creating Pie and Donut charts
+import matplotlib.pyplot as plt
+
+
+# ---------------------------------------------------------
+# 1. LOAD DATASET
+# ---------------------------------------------------------
+
+# Load the Sales dataset
+df = pd.read_csv("Sales-Export_2019-2020.csv")
+
+
+# ---------------------------------------------------------
+# 2. CLEAN COLUMN NAMES
+# ---------------------------------------------------------
+
+# Remove extra spaces from the column names
+df.columns = df.columns.str.strip()
+
+
+# ---------------------------------------------------------
+# 3. CLEAN NUMERICAL COLUMNS
+# ---------------------------------------------------------
+
+# Remove commas from Order Value
+# Example: "17,524.02" becomes "17524.02"
+df["order_value_EUR"] = (
+    df["order_value_EUR"]
+    .astype(str)
+    .str.replace(",", "", regex=False)
+)
+
+# Convert Order Value from text to numerical data
+df["order_value_EUR"] = pd.to_numeric(df["order_value_EUR"])
+
+# Convert Cost into numerical data
+df["cost"] = pd.to_numeric(df["cost"])
+
+
+# ---------------------------------------------------------
+# 4. COUNT ORDERS BY DEVICE TYPE
+# ---------------------------------------------------------
+
+# Count the number of orders for each device type
+device_counts = df["device_type"].value_counts()
+
+# Display the counts
+print("Orders by Device Type:")
+print(device_counts)
+
+
+# ---------------------------------------------------------
+# 5. PIE CHART
+# ---------------------------------------------------------
+
+# Create the figure
+plt.figure(figsize=(8, 8))
+
+# Create the Pie Chart
+plt.pie(
+    device_counts,                    # Values used to create slices
+    labels=device_counts.index,       # Device names
+    autopct="%1.1f%%",                # Display percentage
+    startangle=90,                    # Rotate chart for better presentation
+    explode=[0.05, 0, 0]              # Highlight the first slice
+)
+
+# Add chart title
+plt.title("Order Distribution by Device Type")
+
+# Display the Pie Chart
+plt.show()
+
+
+# ---------------------------------------------------------
+# 6. DONUT CHART
+# ---------------------------------------------------------
+
+# Create a new figure
+plt.figure(figsize=(8, 8))
+
+# Create the Pie Chart that will become a Donut Chart
+plt.pie(
+    device_counts,                    # Values used to create slices
+    labels=device_counts.index,       # Device names
+    autopct="%1.1f%%",                # Display percentage
+    startangle=90                     # Rotate chart
+)
+
+# Create a white circle in the centre
+# This converts the Pie Chart into a Donut Chart
+centre_circle = plt.Circle(
+    (0, 0),                           # Centre position
+    0.5,                              # Radius of the hole
+    color="white"
+)
+
+# Add the white circle to the chart
+plt.gca().add_artist(centre_circle)
+
+
+# ---------------------------------------------------------
+# 7. DISPLAY TOTAL ORDERS IN THE CENTRE
+# ---------------------------------------------------------
+
+# Add total number of orders in the centre of the Donut
+plt.text(
+    0,
+    0,
+    f"{len(df)}\nTotal Orders",
+    ha="center",
+    va="center"
+)
+
+# Add chart title
+plt.title("Order Distribution by Device Type")
+
+# Display the Donut Chart
+plt.show()
