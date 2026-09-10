@@ -1,0 +1,78 @@
+# ============================================
+# BOX PLOT - SALES DATA ANALYSIS
+# ============================================
+
+# Import Matplotlib for data visualization
+import matplotlib.pyplot as plt
+
+
+# Create the figure and set its size
+plt.figure(figsize=(10, 5))
+
+
+# Create Box Plots for Order Value and Cost
+plt.boxplot(
+    [df["order_value_EUR"], df["cost"]],
+
+    # Change the appearance of the box
+    boxprops={
+        "linewidth": 2,
+        "linestyle": "-"
+    },
+
+    # Change the appearance of the whiskers
+    whiskerprops={
+        "linewidth": 2,
+        "linestyle": "--"
+    },
+
+    # Change the appearance of the caps
+    capprops={
+        "linewidth": 2
+    },
+
+    # Change the appearance of the median line
+    medianprops={
+        "linewidth": 2
+    },
+
+    # Display the mean value
+    showmeans=True,
+
+    # Display outliers
+    flierprops={
+        "marker": "o",
+        "markersize": 5
+    }
+)
+
+
+# Give names to the two Box Plots
+plt.xticks(
+    [1, 2],
+    ["Order Value", "Cost"]
+)
+
+
+# Label the X-axis
+plt.xlabel("Variable")
+
+
+# Label the Y-axis
+plt.ylabel("Amount (EUR)")
+
+
+# Add a title
+plt.title("Order Value vs Cost - Box Plot")
+
+
+# Set readable Y-axis values
+plt.yticks(range(0, 400001, 50000))
+
+
+# Add horizontal grid lines
+plt.grid(axis="y", linestyle="--", alpha=0.5)
+
+
+# Display the graph
+plt.show()
