@@ -1,0 +1,63 @@
+# Pie Chart and Donut Chart
+
+## Objective
+
+To visualize the proportion of orders by device type using Pie and Donut charts.
+
+## Dataset
+
+Sales-Export_2019-2020.csv
+
+## Device Types
+
+- PC
+- Mobile
+- Tablet
+
+## Visualizations
+
+### Pie Chart
+
+The Pie Chart shows the percentage share of orders made using each device type.
+
+### Donut Chart
+
+The Donut Chart is a modified Pie Chart with a hole in the centre. The total number of orders is displayed in the centre.
+
+## Key Findings
+
+- PC accounts for 78.5% of all orders.
+- Mobile accounts for 14.2% of all orders.
+- Tablet accounts for 7.3% of all orders.
+- PC is the most commonly used device in this dataset.
+
+## Important Data Analyst Insight
+
+The device with the highest number of orders is not automatically the most profitable device.
+
+To determine which device performs best financially, we should compare:
+
+- Total Revenue
+- Average Order Value
+- Total Profit
+- Profit Margin
+
+## When to Use a Pie Chart
+
+Use a Pie Chart when:
+
+- Data represents parts of a whole.
+- Categories are limited.
+- Percentage/share is important.
+- The total represents 100%.
+
+## When Not to Use a Pie Chart
+
+Avoid Pie Charts when:
+
+- There are too many categories.
+- Precise comparison is required.
+- Data represents a time trend.
+- Numerical distributions need to be analysed.
+
+For many categories, a Bar Chart is usually easier to interpret.
