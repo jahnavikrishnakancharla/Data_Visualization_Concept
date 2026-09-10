@@ -1,0 +1,71 @@
+# Import pandas for data handling
+import pandas as pd
+
+# Import matplotlib for creating visualizations
+import matplotlib.pyplot as plt
+
+
+# Load the Sales dataset
+df = pd.read_csv("Sales-Export_2019-2020.csv")
+
+
+# Remove extra spaces from column names
+df.columns = df.columns.str.strip()
+
+
+# Remove commas from Order Value
+# Convert Order Value from text to numerical data
+df["order_value_EUR"] = (
+    df["order_value_EUR"]
+    .astype(str)
+    .str.replace(",", "", regex=False)
+)
+
+df["order_value_EUR"] = pd.to_numeric(df["order_value_EUR"])
+
+
+# Convert Cost column into numerical data
+df["cost"] = pd.to_numeric(df["cost"])
+
+
+# Create separate data for each device type
+pc = df[df["device_type"] == "PC"]["order_value_EUR"]
+mobile = df[df["device_type"] == "Mobile"]["order_value_EUR"]
+tablet = df[df["device_type"] == "Tablet"]["order_value_EUR"]
+
+
+# Create the violin plot
+plt.figure(figsize=(10, 5))
+
+plt.violinplot(
+    [pc, mobile, tablet],
+    positions=[1, 2, 3],
+    widths=0.8,
+    showmeans=True,
+    showmedians=True,
+    showextrema=True
+)
+
+
+# Add labels to the x-axis
+plt.xticks(
+    [1, 2, 3],
+    ["PC", "Mobile", "Tablet"]
+)
+
+
+# Add axis labels
+plt.xlabel("Device Type")
+plt.ylabel("Order Value (EUR)")
+
+
+# Add chart title
+plt.title("Order Value Distribution by Device Type")
+
+
+# Add horizontal grid lines
+plt.grid(axis="y", linestyle="--", alpha=0.5)
+
+
+# Display the chart
+plt.show()
